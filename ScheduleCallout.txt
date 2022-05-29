@@ -1,0 +1,32 @@
+public with sharing class ScheduleCallout implements Schedulable {
+    
+    public Integer iRetryCount = 0;
+    public ScheduleCallout(Integer iRetryCount) {
+        this.iRetryCount = iRetryCount;
+    }
+    public void execute(SchedulableContext oSchCxt) {     
+        ScheduleCalloutQueueable sCalloutQueueable = new ScheduleCalloutQueueable(iRetryCount);
+        System.enqueueJob(sCalloutQueueable);
+    }     
+    
+    public class ScheduleCalloutQueueable implements Queueable, Database.AllowsCallouts {
+        
+        public Integer iRetryCount = 0;
+        public ScheduleCalloutQueueable(Integer iRetryCount) {
+            this.iRetryCount = iRetryCount;
+        }
+        public void execute(QueueableContext context) { 
+            HttpResponse response = new HttpResponse();
+            try {
+                response = RetryCallout.getResponseFromExternalCallout();
+            }
+            catch(System.CalloutException e) {
+                response = null;    
+            }
+            if(response != null){
+                iRetryCount++;// incrementing the retry count in this class
+                RetryCallout.performActionBasedOnResponse(response,iRetryCount);
+            }
+        }
+    }
+}

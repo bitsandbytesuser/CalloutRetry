@@ -1,0 +1,55 @@
+global with sharing class RetryCallout {   
+    public static HttpResponse getResponseFromExternalCallout() {
+        HttpResponse response = new HttpResponse();
+        try {
+            Http http = new Http();
+            HttpRequest request = new HttpRequest();
+            request.setEndpoint('demoEndpoint');
+            request.setMethod('POST');
+            request.setHeader('Content-Type','application/json');
+            response = http.send(request);          
+            return response;
+        }
+        catch(Exception e) {
+            //log exception
+        }
+        return null;
+    } 
+    public static void performActionBasedOnResponse(HttpResponse response,Integer iRetryCount) {
+        if(response.getStatusCode() == 400 || response.getStatusCode() == 404 || response.getStatusCode() == 500) {
+            //go for retry  
+            //capture log
+            scheduleJobOfFailureCallout(iRetryCount);// calling schedule function
+        } else if (response.getStatusCode() == 201) {
+            //capture log
+        } else if (response.getStatusCode() == 501) {
+            // capture log and don't do retry
+            
+        } else {
+            //capture log
+        }
+    }
+    
+    public static void scheduleJobOfFailureCallout(Integer iRetryCount) {
+        try {
+            if(iRetryCount < 3) {// here 3 is the count of retry ,you can configure according to your requirement 
+                DateTime Dt = system.now().addMinutes(5);// adding 5 minutes to current time (you can configure your own)           
+                String day = string.valueOf(Dt.day());                    
+                String month = string.valueOf(Dt.month());                      
+                String hour = string.valueOf(Dt.hour());                   
+                String minute = string.valueOf(Dt.minute());                                   
+                String year = string.valueOf(Dt.year());                  
+                String ScheduledTime = '0 ' + minute + ' ' + hour + ' ' + day + ' ' + month + ' ?' + ' ' + year;
+                ScheduleCallout Job = new ScheduleCallout(iRetryCount);
+                
+            } else {
+                //   capture retry count here.
+                
+            }
+        }
+        catch(Exception e) {
+            // capture failure in scheduling
+        }
+    }
+    
+}
