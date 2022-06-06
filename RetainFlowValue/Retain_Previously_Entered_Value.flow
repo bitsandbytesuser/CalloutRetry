@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <apiVersion>55.0</apiVersion>
+    <apiVersion>54.0</apiVersion>
     <assignments>
         <name>Assign_Screen1_values</name>
         <label>Assign Screen1 values</label>
