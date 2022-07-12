@@ -41,6 +41,7 @@ global with sharing class RetryCallout {
                 String year = string.valueOf(Dt.year());                  
                 String ScheduledTime = '0 ' + minute + ' ' + hour + ' ' + day + ' ' + month + ' ?' + ' ' + year;
                 ScheduleCallout Job = new ScheduleCallout(iRetryCount);
+                System.schedule('Schedule Job '+Dt, ScheduledTime, Job);
                 
             } else {
                 //   capture retry count here.
