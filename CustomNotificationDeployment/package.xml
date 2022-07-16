@@ -1,1 +1,16 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Custom_Notification_Demo</members>
+        <name>Flow</name>
+    </types>
+	<types>
+        <members>Custom_Notification_Api_Name</members>
+        <name>CustomNotificationType</name>
+    </types>
+	<types>
+        <members>Notifications</members>
+        <name>Setting</name>
+    </types>
+    <version>54.0</version>
+</Package>
