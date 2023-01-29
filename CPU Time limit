@@ -1,0 +1,19 @@
+public class ProcessBuilderInFutureContext {
+ 
+    @InvocableMethod 
+    public static void callFromProcessBuilder( List < String > taskList ) {
+ 
+        processToDo( taskList );
+ 
+    }
+ 
+    @future
+    public static void processToDo( List < String > taskList ) {
+ 
+        //Write the logic.
+		//Run in asyn context
+       //If it is a call out, use callout = true in future annoation
+ 
+    }
+ 
+}
